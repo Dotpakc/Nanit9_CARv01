@@ -45,9 +45,11 @@ void setup() {
 
   server.on("/", HTTP_GET, handler_main);
 
+  server.begin();
 }
 
 void loop() {
- 
+  // put your main code here, to run repeatedly:
+  server.handleClient();
 }
 
