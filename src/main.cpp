@@ -18,7 +18,7 @@
 #define MOTOR2_A 25 // Right motor
 #define MOTOR2_B 26 // Right motor
 
-#define BUZZER 27 // Buzzer
+#define BUZZER 13 // Buzzer
 
 
 WebServer server(80);// создаем веб-сервер на порту 80 (стандартный порт для HTTP)
