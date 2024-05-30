@@ -18,6 +18,8 @@
 #define MOTOR2_A 25 // Right motor
 #define MOTOR2_B 26 // Right motor
 
+#define BUZZER 27 // Buzzer
+
 
 WebServer server(80);// создаем веб-сервер на порту 80 (стандартный порт для HTTP)
 
@@ -45,11 +47,57 @@ void setup() {
 
   server.on("/", HTTP_GET, handler_main);
 
+  server.on("/forward", HTTP_GET, []() {
+    digitalWrite(MOTOR1_A, HIGH);
+    digitalWrite(MOTOR1_B, LOW);
+    digitalWrite(MOTOR2_A, HIGH);
+    digitalWrite(MOTOR2_B, LOW);
+    server.send(200, "text/plain", "Forward");
+  });
+
+  server.on("/backward", HTTP_GET, []() {
+    digitalWrite(MOTOR1_A, LOW);
+    digitalWrite(MOTOR1_B, HIGH);
+    digitalWrite(MOTOR2_A, LOW);
+    digitalWrite(MOTOR2_B, HIGH);
+    server.send(200, "text/plain", "Backward");
+  });
+
+  server.on("/turnLeft", HTTP_GET, []() {
+    digitalWrite(MOTOR1_A, LOW);
+    digitalWrite(MOTOR1_B, HIGH);
+    digitalWrite(MOTOR2_A, HIGH);
+    digitalWrite(MOTOR2_B, LOW);
+    server.send(200, "text/plain", "Turn Left");
+  });
+
+  server.on("/turnRight", HTTP_GET, []() {
+    digitalWrite(MOTOR1_A, HIGH);
+    digitalWrite(MOTOR1_B, LOW);
+    digitalWrite(MOTOR2_A, LOW);
+    digitalWrite(MOTOR2_B, HIGH);
+    server.send(200, "text/plain", "Turn Right");
+  });
+
+  server.on("/stop", HTTP_GET, []() {
+    digitalWrite(MOTOR1_A, LOW);
+    digitalWrite(MOTOR1_B, LOW);
+    digitalWrite(MOTOR2_A, LOW);
+    digitalWrite(MOTOR2_B, LOW);
+    server.send(200, "text/plain", "Stop");
+  });
+
+  server.on("/buzzer", HTTP_GET, []() {
+    tone(BUZZER, 450, 1000);
+    server.send(200, "text/plain", "Buzzer");
+  });
+
   server.begin();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   server.handleClient();
+  //freeRTOS
 }
 
